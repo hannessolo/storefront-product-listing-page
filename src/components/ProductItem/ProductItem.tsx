@@ -16,6 +16,7 @@ import { useCart, useProducts, useSensor, useStore } from '../../context';
 import NoImage from '../../icons/NoImage.svg';
 import {
   Product,
+  ProductAttribute,
   ProductViewMedia,
   RedirectRouteFunc,
   RefinedProduct,
@@ -29,6 +30,7 @@ import { htmlStringDecode } from '../../utils/htmlStringDecode';
 import { AddToCartButton } from '../AddToCartButton';
 import { ImageCarousel } from '../ImageCarousel';
 import { SwatchButtonGroup } from '../SwatchButtonGroup';
+import ProductCapsules from './ProductCapsules';
 import ProductPrice from './ProductPrice';
 
 export interface ProductProps {
@@ -283,6 +285,11 @@ export const ProductItem: FunctionComponent<ProductProps> = ({
     );
   }
 
+  const getProductViewAttributeValue = (attributeName: string | null) => {
+    return productView?.attributes.find(
+      (attribute: ProductAttribute) => attribute.name === attributeName
+    )?.value;
+  };
   return (
     <div
       className="ds-sdk-product-item group relative flex flex-col max-w-sm justify-between h-full hover:border-[1.5px] border-solid hover:shadow-lg border-offset-2 p-2"
@@ -292,62 +299,51 @@ export const ProductItem: FunctionComponent<ProductProps> = ({
       onMouseEnter={handleMouseOver}
       onMouseLeave={handleMouseOut}
     >
-      <a
-        href={productUrl as string}
-        onClick={onProductClick}
-        className="!text-primary hover:no-underline hover:text-primary"
-      >
-        <div className="ds-sdk-product-item__main relative flex flex-col justify-between h-full">
-          <div className="ds-sdk-product-item__image relative w-full h-full rounded-md overflow-hidden">
-            {productImageArray.length ? (
-              <ImageCarousel
-                images={
-                  optimizedImageArray.length
-                    ? optimizedImageArray
-                    : productImageArray
-                }
-                productName={product.name}
-                carouselIndex={carouselIndex}
-                setCarouselIndex={setCarouselIndex}
-              />
-            ) : (
-              <NoImage
-                className={`max-h-[45rem] w-full object-cover object-center lg:w-full`}
-              />
-            )}
-          </div>
-          <div className="flex flex-row">
-            <div className="flex flex-col">
-              <div className="ds-sdk-product-item__product-name mt-md text-sm text-primary">
-                {product.name !== null && htmlStringDecode(product.name)}
-              </div>
-              <ProductPrice
-                item={refinedProduct ?? item}
-                isBundle={isBundle}
-                isGrouped={isGrouped}
-                isGiftCard={isGiftCard}
-                isConfigurable={isConfigurable}
-                isComplexProductView={isComplexProductView}
-                discount={discount}
-                currencySymbol={currencySymbol}
-                currencyRate={currencyRate}
-              />
+      <div className="product-item-top">
+        <a
+          href={productUrl as string}
+          onClick={onProductClick}
+          className="!text-primary hover:no-underline hover:text-primary"
+        >
+          {getProductViewAttributeValue('coffee_intensity') && (
+            <div className="ds-sdk-product-item__intensity">
+              <span className="intensity-text">Intensité</span>
+              <span className="intensity-number">
+                {getProductViewAttributeValue('coffee_intensity')}
+              </span>
             </div>
-
-            {/* 
-            //TODO: Wishlist button to be added later
-            {flags.addToWishlist && widgetConfig.addToWishlist.enabled && (
-              // TODO: Remove flag during phase 3 MSRCH-4278
-              <div className="ds-sdk-wishlist ml-auto mt-md">
-                <WishlistButton
-                  productSku={item.product.sku}
-                  type={widgetConfig.addToWishlist.placement}
+          )}
+          <div className="ds-sdk-product-item__main relative flex flex-col justify-between h-full">
+            <div className="ds-sdk-product-item__image relative w-full h-full rounded-md overflow-hidden">
+              {productImageArray.length ? (
+                <ImageCarousel
+                  images={
+                    optimizedImageArray.length
+                      ? optimizedImageArray
+                      : productImageArray
+                  }
+                  productName={product.name}
+                  carouselIndex={carouselIndex}
+                  setCarouselIndex={setCarouselIndex}
                 />
-              </div>
-            )} */}
+              ) : (
+                <NoImage
+                  className={`max-h-[45rem] w-full object-cover object-center lg:w-full`}
+                />
+              )}
+            </div>
+            <div className="ds-sdk-product-item__product-name mt-md text-sm text-primary">
+              {product.name !== null && htmlStringDecode(product.name)}
+            </div>
+          </div>
+        </a>
+        <div className="subtitles">
+          <ProductCapsules item={item} />
+          <div className="flavor-characteristic">
+            {getProductViewAttributeValue('flavor_characteristic')}
           </div>
         </div>
-      </a>
+      </div>
 
       {productView?.options && productView.options?.length > 0 && (
         <div className="ds-sdk-product-item__product-swatch flex flex-row mt-sm text-sm text-primary">
@@ -367,12 +363,25 @@ export const ProductItem: FunctionComponent<ProductProps> = ({
           )}
         </div>
       )}
-        <div className="pb-4 mt-sm">
-          {screenSize.mobile && <AddToCartButton onClick={handleAddToCart} />}
-          {isHovering && screenSize.desktop && (
-            <AddToCartButton onClick={handleAddToCart} />
-          )}
+      <div className="flex flex-row">
+        <div className="flex flex-col">
+          <ProductPrice
+            item={refinedProduct ?? item}
+            isBundle={isBundle}
+            isGrouped={isGrouped}
+            isGiftCard={isGiftCard}
+            isConfigurable={isConfigurable}
+            isComplexProductView={isComplexProductView}
+            discount={discount}
+            currencySymbol={currencySymbol}
+            currencyRate={currencyRate}
+          />
         </div>
+      </div>
+      <div className="pb-4 mt-sm">
+        {screenSize.mobile && <AddToCartButton onClick={handleAddToCart} />}
+        {screenSize.desktop && <AddToCartButton onClick={handleAddToCart} />}
+      </div>
     </div>
   );
 };

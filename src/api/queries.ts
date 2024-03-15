@@ -12,20 +12,19 @@ import { Facet, Product, ProductView } from './fragments';
 const ATTRIBUTE_METADATA_QUERY = `
     query attributeMetadata {
         attributeMetadata {
-        sortable {
-            label
-            attribute
-            numeric
-        }
-        filterableInSearch {
-            label
-            attribute
-            numeric
-        }
+            sortable {
+                label
+                attribute
+                numeric
+            }
+            filterableInSearch {
+                label
+                attribute
+                numeric
+            }
         }
     }
 `;
-
 
 const QUICK_SEARCH_QUERY = `
     query quickSearch(

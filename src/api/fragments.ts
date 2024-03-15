@@ -93,6 +93,12 @@ const ProductView = `
                         }
                     }
                 }
+                attributes {
+                    label
+                    name
+                    value
+                    roles
+                }
             }
             ... on SimpleProductView {
                 price {
@@ -108,6 +114,12 @@ const ProductView = `
                             currency
                         }
                     }
+                }
+                attributes {
+                    label
+                    name
+                    value
+                    roles
                 }
             }
         }

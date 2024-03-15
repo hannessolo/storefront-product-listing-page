@@ -56,17 +56,34 @@ export const ProductPrice: FunctionComponent<ProductPriceProps> = ({
   ) => {
     const bundlePriceTranslationOrder =
       translation.ProductCard.bundlePrice.split(' ');
-    return bundlePriceTranslationOrder.map((word: string, index: any) =>
-      word === '{fromBundlePrice}' ? (
-        `${getProductPrice(item, currencySymbol, currencyRate, false, true)} `
-      ) : word === '{toBundlePrice}' ? (
-        getProductPrice(item, currencySymbol, currencyRate, true, true)
-      ) : (
-        <span className="text-gray-500 text-xs font-normal mr-xs" key={index}>
-          {word}
-        </span>
-      )
+    const fromPrice = getProductPrice(
+      item,
+      currencySymbol,
+      currencyRate,
+      false,
+      true
     );
+    const toPrice = getProductPrice(
+      item,
+      currencySymbol,
+      currencyRate,
+      true,
+      true
+    );
+    if (fromPrice !== toPrice) {
+      return bundlePriceTranslationOrder.map((word: string, index: any) =>
+        word === '{fromBundlePrice}' ? (
+          `${getProductPrice(item, currencySymbol, currencyRate, false, true)} `
+        ) : word === '{toBundlePrice}' ? (
+          getProductPrice(item, currencySymbol, currencyRate, true, true)
+        ) : (
+          <span className="text-gray-500 text-xs font-normal mr-xs" key={index}>
+            {word}
+          </span>
+        )
+      );
+    }
+    return <>{fromPrice}</>;
   };
 
   const getPriceFormat = (

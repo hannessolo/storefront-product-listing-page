@@ -167,8 +167,8 @@ export interface AttributeMetadataResponse {
   };
 }
 
-export interface PromoTileResponse {  
-  position: string;  
+export interface PromoTileResponse {
+  position: string;
   title?: string;
   image: string;
   destination: string;
@@ -236,6 +236,7 @@ export interface Product {
         regular: ProductViewPrice;
       };
     };
+    attributes: ProductAttribute[];
     gift_message_available: null | string;
     url: null | string;
     urlKey: null | string;
@@ -251,6 +252,13 @@ export interface Product {
         }[];
   };
   highlights: Array<Highlights>;
+}
+
+export interface ProductAttribute {
+  label: null | string;
+  name: null | string;
+  value: null | string;
+  roles: null | string[];
 }
 
 export interface RefinedProduct {
