@@ -167,6 +167,14 @@ export interface AttributeMetadataResponse {
   };
 }
 
+export interface PromoTileResponse {  
+  position: string;  
+  title?: string;
+  image: string;
+  destination: string;
+  path: string;
+}
+
 export interface Product {
   product: {
     __typename: string;

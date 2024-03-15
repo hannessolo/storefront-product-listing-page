@@ -10,15 +10,8 @@ it.
 import { createContext } from 'preact';
 import { useContext, useEffect, useMemo, useState } from 'preact/hooks';
 
-import { getProductSearch, refineProductSearch } from '../api/search';
-import {
-  Facet,
-  FacetFilter,
-  PageSizeOption,
-  Product,
-  ProductSearchQuery,
-  RedirectRouteFunc,
-} from '../types/interface';
+import {getCategoryPromoTiles,getProductSearch, refineProductSearch} from '../api/search';
+import {Facet, FacetFilter, PageSizeOption, Product, ProductSearchQuery, PromoTileResponse,RedirectRouteFunc} from '../types/interface';
 import {
   CATEGORY_SORT_DEFAULT,
   DEFAULT_MIN_QUERY_LENGTH,
@@ -46,6 +39,8 @@ const ProductsContext = createContext<{
   loading: boolean;
   items: Product[];
   setItems: (items: Product[]) => void;
+  promoTiles: PromoTileResponse[];
+  setPromoTiles: (promoTiles: PromoTileResponse[]) => void;
   currentPage: number;
   setCurrentPage: (page: number) => void;
   pageSize: number;
@@ -89,6 +84,8 @@ const ProductsContext = createContext<{
   loading: false,
   items: [],
   setItems: () => {},
+  promoTiles: [],
+  setPromoTiles: () => {},
   currentPage: 1,
   setCurrentPage: () => {},
   pageSize: DEFAULT_PAGE_SIZE,
@@ -146,6 +143,7 @@ const ProductsContextProvider = ({ children }: WithChildrenProps) => {
   const [loading, setLoading] = useState(true);
   const [pageLoading, setPageLoading] = useState(true);
   const [items, setItems] = useState<Product[]>([]);
+  const [promoTiles, setPromoTiles] = useState<PromoTileResponse[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(pageDefault);
   const [pageSize, setPageSize] = useState<number>(pageSizeDefault);
   const [totalCount, setTotalCount] = useState<number>(0);
@@ -207,6 +205,8 @@ const ProductsContextProvider = ({ children }: WithChildrenProps) => {
     loading,
     items,
     setItems,
+    promoTiles,
+    setPromoTiles,
     currentPage,
     setCurrentPage,
     pageSize,
@@ -259,7 +259,16 @@ const ProductsContextProvider = ({ children }: WithChildrenProps) => {
           categorySearch: !!categoryPath,
         });
 
-        setItems(data?.productSearch?.items || []);
+        let categoryPromoTiles: PromoTileResponse[] = [];;
+        if (categoryPath && categoryPath.length > 0) {          
+          categoryPromoTiles = await getCategoryPromoTiles({
+            promoTilesDataPath: storeCtx.promoTilesDataPath,
+            categoryPath
+          });
+          setPromoTiles(categoryPromoTiles);
+        }
+
+        setItems(data?.productSearch?.items || []);        
         setFacets(data?.productSearch?.facets || []);
         setTotalCount(data?.productSearch?.total_count || 0);
         setTotalPages(data?.productSearch?.page_info?.total_pages || 1);

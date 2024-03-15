@@ -10,18 +10,10 @@ it.
 import { v4 as uuidv4 } from 'uuid';
 
 import { updateSearchInputCtx, updateSearchResultsCtx } from '../context';
-import {
-  AttributeMetadataResponse,
-  ClientProps,
-  MagentoHeaders,
-  ProductSearchQuery,
-  ProductSearchResponse,
-  RefinedProduct,
-  RefineProductQuery,
-} from '../types/interface';
+import {AttributeMetadataResponse, ClientProps, MagentoHeaders, ProductSearchQuery, ProductSearchResponse, PromoTileResponse,RefinedProduct, RefineProductQuery} from '../types/interface';
 import { SEARCH_UNIT_ID } from '../utils/constants';
 import {
-  ATTRIBUTE_METADATA_QUERY,
+  ATTRIBUTE_METADATA_QUERY,  
   PRODUCT_SEARCH_QUERY,
   REFINE_PRODUCT_QUERY,
 } from './queries';
@@ -181,6 +173,25 @@ const getAttributeMetadata = async ({
   return results?.data;
 };
 
+
+const getCategoryPromoTiles = async ({
+  promoTilesDataPath,
+  categoryPath,
+}: {promoTilesDataPath: string, categoryPath: string}): Promise<PromoTileResponse[]> => {     
+  try {    
+    const promoTilesJSON = await fetch(promoTilesDataPath).then((res) => res.text());
+    const tiles: { data: PromoTileResponse[] } = JSON.parse(promoTilesJSON);
+    return tiles?.data
+      .filter(item => {
+        return (item.path && item.destination && item.image && item.position) 
+          && categoryPath.replace(/^\/|\/$/g, '').toUpperCase()
+            .startsWith(item?.path?.replace(/^\/|\/$/g, '').toUpperCase());
+      });
+  } catch(error) {    
+    return [];
+  }  
+};
+
 const refineProductSearch = async ({
   environmentId,
   websiteCode,
@@ -220,4 +231,4 @@ const refineProductSearch = async ({
   return results?.data;
 };
 
-export { getAttributeMetadata, getProductSearch, refineProductSearch };
+export { getAttributeMetadata, getProductSearch, refineProductSearch, getCategoryPromoTiles };

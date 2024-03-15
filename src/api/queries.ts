@@ -26,6 +26,7 @@ const ATTRIBUTE_METADATA_QUERY = `
     }
 `;
 
+
 const QUICK_SEARCH_QUERY = `
     query quickSearch(
         $phrase: String!

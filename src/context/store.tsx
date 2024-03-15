@@ -30,6 +30,7 @@ export interface StoreDetailsProps extends WithChildrenProps {
   context?: QueryContextInput;
   apiUrl: string;
   apiKey: string;
+  promoTilesDataPath: string;
   route?: RedirectRouteFunc; // optional product redirect func prop
   searchQuery?: string; // 'q' default search query param if not provided.
 }
@@ -42,6 +43,7 @@ const StoreContext = createContext<StoreDetailsProps>({
   storeViewCode: '',
   apiUrl: '',
   apiKey: '',
+  promoTilesDataPath: '',
   config: {},
   context: {},
   route: undefined,
@@ -58,6 +60,8 @@ const StoreContextProvider = ({
   config,
   context,
   apiKey,
+  apiUrl,
+  promoTilesDataPath,
   route,
   searchQuery,
 }: StoreDetailsProps) => {
@@ -73,7 +77,8 @@ const StoreContextProvider = ({
         customerGroup: context?.customerGroup ?? '',
         userViewHistory: context?.userViewHistory ?? [],
       },
-      apiUrl: environmentType?.toLowerCase() === 'testing' ? TEST_URL : API_URL,
+      apiUrl: environmentType?.toLowerCase() === 'testing' ? TEST_URL : (apiUrl ? apiUrl : API_URL),
+      promoTilesDataPath,
       apiKey:
         environmentType?.toLowerCase() === 'testing' && !apiKey
           ? SANDBOX_KEY

@@ -10,6 +10,7 @@ const validStoreDetailsKeys: Array<keyof StoreDetailsProps> = [
   'context',
   'apiUrl',
   'apiKey',
+  'promoTilesDataPath',
   'route',
   'searchQuery',
 ];
@@ -35,7 +36,9 @@ export const validateStoreDetailsKeys = (
       delete (storeDetails as any)[key];
       return;
     }
-    (storeDetails as any)[key] = sanitizeString((storeDetails as any)[key]);
+    if (key !== 'apiUrl') {
+      (storeDetails as any)[key] = sanitizeString((storeDetails as any)[key]);
+    }
   });
   return storeDetails;
 };
