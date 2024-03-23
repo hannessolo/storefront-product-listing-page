@@ -10,9 +10,7 @@ it.
 import { FunctionComponent } from 'preact';
 import { useEffect, useRef } from 'preact/hooks';
 
-import { useTranslation } from '../../context/translation';
 import { useAccessibleDropdown } from '../../hooks/useAccessibleDropdown';
-import Chevron from '../../icons/chevron.svg';
 import SortIcon from '../../icons/sort.svg';
 import { SortOption } from '../../types/interface';
 
@@ -31,13 +29,6 @@ export const SortDropdown: FunctionComponent<SortDropdownProps> = ({
   const sortOptionMenu = useRef<HTMLDivElement | null>(null);
 
   const selectedOption = sortOptions.find((e) => e.value === value);
-
-  const translation = useTranslation();
-  const sortOptionTranslation = translation.SortDropdown.option;
-  const sortOption = sortOptionTranslation.replace(
-    '{selectedOption}',
-    `${selectedOption?.label}`
-  );
 
   const {
     isDropdownOpen,
@@ -91,13 +82,8 @@ export const SortDropdown: FunctionComponent<SortDropdownProps> = ({
           onFocus={() => setIsFocus(false)}
           onBlur={() => setIsFocus(false)}
         >
+          {selectedOption?.label}
           <SortIcon className="h-md w-md mr-sm stroke-gray-600 m-auto" />
-          {selectedOption ? sortOption : translation.SortDropdown.title}
-          <Chevron
-            className={`flex-shrink-0 m-auto ml-sm h-md w-md stroke-1 stroke-gray-600 ${
-              isDropdownOpen ? '' : 'rotate-180'
-            }`}
-          />
         </button>
         {isDropdownOpen && (
           <ul

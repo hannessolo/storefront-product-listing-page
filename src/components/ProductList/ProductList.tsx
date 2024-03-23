@@ -51,8 +51,8 @@ export const ProductList: FunctionComponent<ProductListProps> = ({
   } = useStore();
 
   const className = showFilters
-    ? 'ds-sdk-product-list bg-body max-w-full pl-3 pb-2xl sm:pb-24'
-    : 'ds-sdk-product-list bg-body w-full mx-auto pb-2xl sm:pb-24';
+    ? 'ds-sdk-product-list max-w-full pl-3 pb-2xl sm:pb-24'
+    : 'ds-sdk-product-list w-full mx-auto pb-2xl sm:pb-24';
 
   useEffect(() => {
     refreshCart && refreshCart();
@@ -60,10 +60,7 @@ export const ProductList: FunctionComponent<ProductListProps> = ({
 
   return (
     <div
-      className={classNames(
-        'ds-sdk-product-list bg-body pb-2xl sm:pb-24',
-        className
-      )}
+      className={classNames('ds-sdk-product-list pb-2xl sm:pb-24', className)}
     >
       {cartUpdated && (
         <div className="mt-8">
@@ -89,14 +86,56 @@ export const ProductList: FunctionComponent<ProductListProps> = ({
       {listview && viewType === 'listview' ? (
         <div className="w-full">
           <div className="ds-sdk-product-list__list-view-default mt-md grid grid-cols-none pt-[15px] w-full gap-[10px]">
-            {products?.map((product, index) => 
-              {
-                const currentPositionPromoTile = promoTiles?.find(item => item.position === (index+1).toString()); 
-                return (<Fragment key={product?.productView?.id}>
-                {currentPositionPromoTile && <PromoTile
-                  setRoute={setRoute}
-                  promoTile={currentPositionPromoTile}
-                />}
+            {products?.map((product, index) => {
+              const currentPositionPromoTile = promoTiles?.find(
+                (item) => item.position === (index + 1).toString()
+              );
+              return (
+                <Fragment key={product?.productView?.id}>
+                  {currentPositionPromoTile && (
+                    <PromoTile
+                      setRoute={setRoute}
+                      promoTile={currentPositionPromoTile}
+                    />
+                  )}
+                  <ProductItem
+                    item={product}
+                    setError={setError}
+                    key={product?.productView?.id}
+                    currencySymbol={currencySymbol}
+                    currencyRate={currencyRate}
+                    setRoute={setRoute}
+                    refineProduct={refineProduct}
+                    setCartUpdated={setCartUpdated}
+                    setItemAdded={setItemAdded}
+                    addToCart={addToCart}
+                  />
+                </Fragment>
+              );
+            })}
+          </div>
+        </div>
+      ) : (
+        <div
+          style={{
+            gridTemplateColumns: `repeat(${
+              showFilters ? numberOfColumns - 1 : numberOfColumns
+            }, minmax(0, 1fr))`,
+          }}
+          className="ds-sdk-product-list__grid mt-md grid gap-y-8 gap-x-2xl xl:gap-x-8"
+        >
+          {products?.map((product, index) => {
+            const currentPositionPromoTile = promoTiles?.find(
+              (item) => item.position === (index + 1).toString()
+            );
+            return (
+              <Fragment key={product?.productView?.id}>
+                {currentPositionPromoTile && (
+                  <PromoTile
+                    setRoute={setRoute}
+                    promoTile={currentPositionPromoTile}
+                  />
+                )}
                 <ProductItem
                   item={product}
                   setError={setError}
@@ -109,41 +148,9 @@ export const ProductList: FunctionComponent<ProductListProps> = ({
                   setItemAdded={setItemAdded}
                   addToCart={addToCart}
                 />
-                </Fragment>);                                
-              }
-            )}
-          </div>
-        </div>
-      ) : (
-        <div
-          style={{
-            gridTemplateColumns: `repeat(${numberOfColumns}, minmax(0, 1fr))`,
-          }}
-          className="ds-sdk-product-list__grid mt-md grid gap-y-8 gap-x-2xl xl:gap-x-8"
-        >
-          {products?.map((product, index) => {            
-            const currentPositionPromoTile = promoTiles?.find(item => item.position === (index+1).toString());            
-              return (<Fragment key={product?.productView?.id}>
-              {currentPositionPromoTile && <PromoTile
-                setRoute={setRoute}
-                promoTile={currentPositionPromoTile}
-               />}
-              <ProductItem
-                  item={product}
-                  setError={setError}
-                  key={product?.productView?.id}
-                  currencySymbol={currencySymbol}
-                  currencyRate={currencyRate}
-                  setRoute={setRoute}
-                  refineProduct={refineProduct}
-                  setCartUpdated={setCartUpdated}
-                  setItemAdded={setItemAdded}
-                  addToCart={addToCart}
-                />
               </Fragment>
-            )
-              }
-          )}
+            );
+          })}
         </div>
       )}
     </div>

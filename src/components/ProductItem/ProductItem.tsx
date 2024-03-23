@@ -30,6 +30,7 @@ import { htmlStringDecode } from '../../utils/htmlStringDecode';
 import { AddToCartButton } from '../AddToCartButton';
 import { ImageCarousel } from '../ImageCarousel';
 import { SwatchButtonGroup } from '../SwatchButtonGroup';
+import { UpdateQuantityWidget } from '../UpdateQuantityWidget';
 import ProductCapsules from './ProductCapsules';
 import ProductPrice from './ProductPrice';
 
@@ -62,11 +63,13 @@ export const ProductItem: FunctionComponent<ProductProps> = ({
 }: ProductProps) => {
   const { product, productView } = item;
   const [carouselIndex, setCarouselIndex] = useState(0);
+  const [quantity, setQuantity] = useState(1);
   const [selectedSwatch, setSelectedSwatch] = useState('');
   const [imagesFromRefinedProduct, setImagesFromRefinedProduct] = useState<
     ProductViewMedia[] | null
   >();
   const [refinedProduct, setRefinedProduct] = useState<RefinedProduct>();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   const [isHovering, setIsHovering] = useState(false);
   const { addToCartGraphQL, refreshCart } = useCart();
   const { viewType } = useProducts();
@@ -142,28 +145,24 @@ export const ProductItem: FunctionComponent<ProductProps> = ({
 
   const handleAddToCart = async () => {
     setError(false);
-    if (isSimple) {
-      if (addToCart) {
-        //Custom add to cart function passed in
-        await addToCart(productView.sku, [], 1);
-      } else {
-        // Add to cart using GraphQL & Luma extension
-        const response = await addToCartGraphQL(productView.sku);
+    if (addToCart) {
+      //Custom add to cart function passed in
+      await addToCart(productView.sku, [], quantity);
+    } else {
+      // Add to cart using GraphQL & Luma extension
+      const response = await addToCartGraphQL(productView.sku);
 
-        if (
-          response?.errors ||
-          response?.data?.addProductsToCart?.user_errors.length > 0
-        ) {
-          setError(true);
-          return;
-        }
-
-        setItemAdded(product.name);
-        refreshCart && refreshCart();
-        setCartUpdated(true);
+      if (
+        response?.errors ||
+        response?.data?.addProductsToCart?.user_errors.length > 0
+      ) {
+        setError(true);
+        return;
       }
-    } else if (productUrl) {
-      window.open(productUrl, '_self');
+
+      setItemAdded(product.name);
+      refreshCart && refreshCart();
+      setCartUpdated(true);
     }
   };
 
@@ -290,6 +289,16 @@ export const ProductItem: FunctionComponent<ProductProps> = ({
       (attribute: ProductAttribute) => attribute.name === attributeName
     )?.value;
   };
+  // if (
+  //   product.sku.includes('TOFFEE NUT LATTE') ||
+  //   product.name.includes('SPECIAL.T')
+  // ) {
+  //   // eslint-disable-next-line no-console
+  //   console.log(product);
+  //   // eslint-disable-next-line no-console
+  //   console.log(productView);
+  // }
+
   return (
     <div
       className="ds-sdk-product-item group relative flex flex-col max-w-sm justify-between h-full hover:border-[1.5px] border-solid hover:shadow-lg border-offset-2 p-2"
@@ -363,22 +372,19 @@ export const ProductItem: FunctionComponent<ProductProps> = ({
           )}
         </div>
       )}
-      <div className="flex flex-row">
-        <div className="flex flex-col">
-          <ProductPrice
-            item={refinedProduct ?? item}
-            isBundle={isBundle}
-            isGrouped={isGrouped}
-            isGiftCard={isGiftCard}
-            isConfigurable={isConfigurable}
-            isComplexProductView={isComplexProductView}
-            discount={discount}
-            currencySymbol={currencySymbol}
-            currencyRate={currencyRate}
-          />
-        </div>
-      </div>
+      <ProductPrice
+        item={refinedProduct ?? item}
+        isBundle={isBundle}
+        isGrouped={isGrouped}
+        isGiftCard={isGiftCard}
+        isConfigurable={isConfigurable}
+        isComplexProductView={isComplexProductView}
+        discount={discount}
+        currencySymbol={currencySymbol}
+        currencyRate={currencyRate}
+      />
       <div className="pb-4 mt-sm">
+        <UpdateQuantityWidget quantity={quantity} setQuantity={setQuantity} />
         {screenSize.mobile && <AddToCartButton onClick={handleAddToCart} />}
         {screenSize.desktop && <AddToCartButton onClick={handleAddToCart} />}
       </div>

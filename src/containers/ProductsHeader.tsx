@@ -9,7 +9,6 @@ it.
 
 import { FunctionComponent } from 'preact';
 import { useCallback, useEffect, useState } from 'preact/hooks';
-import ViewSwitcher from 'src/components/ViewSwitcher';
 
 import Facets from '../components/Facets';
 import { FilterButton } from '../components/FilterButton';
@@ -31,7 +30,9 @@ import {
 } from '../utils/sort';
 
 interface Props {
+  loading: boolean;
   facets: Facet[];
+  displayFilter: () => void;
   totalCount: number;
   screenSize: {
     mobile: boolean;
@@ -41,7 +42,9 @@ interface Props {
   };
 }
 export const ProductsHeader: FunctionComponent<Props> = ({
+  loading,
   facets,
+  displayFilter,
   totalCount,
   screenSize,
 }) => {
@@ -84,44 +87,50 @@ export const ProductsHeader: FunctionComponent<Props> = ({
   };
 
   return (
-    <div className="flex flex-col max-w-5xl lg:max-w-full ml-auto w-full h-full">
-      <div
-        className={`flex gap-x-2.5 mb-[1px] ${
-          screenSize.mobile ? 'justify-between' : 'justify-end'
-        }`}
-      >
-        <div>
-          {screenSize.mobile
-            ? totalCount > 0 && (
-                <div className="pb-4">
-                  <FilterButton
-                    displayFilter={() => setShowMobileFacet(!showMobileFacet)}
-                    type="mobile"
-                  />
-                </div>
-              )
-            : storeCtx.config.displaySearchBox && (
-                <SearchBar
-                  phrase={searchCtx.phrase}
-                  onKeyPress={(e: any) => {
-                    if (e.key === 'Enter') {
-                      searchCtx.setPhrase(e?.target?.value);
-                    }
-                  }}
-                  onClear={() => searchCtx.setPhrase('')}
-                  placeholder={translation.SearchBar.placeholder}
+    <div className="products-header flex flex-col lg:max-w-full ml-auto w-full">
+      <div className={`flex gap-x-2.5 mb-[1px] justify-between`}>
+        {screenSize.mobile
+          ? totalCount > 0 && (
+              <div className="pb-4">
+                <FilterButton
+                  displayFilter={() => setShowMobileFacet(!showMobileFacet)}
+                  type="mobile"
                 />
-              )}
-        </div>
+              </div>
+            )
+          : storeCtx.config.displaySearchBox && (
+              <SearchBar
+                phrase={searchCtx.phrase}
+                onKeyPress={(e: any) => {
+                  if (e.key === 'Enter') {
+                    searchCtx.setPhrase(e?.target?.value);
+                  }
+                }}
+                onClear={() => searchCtx.setPhrase('')}
+                placeholder={translation.SearchBar.placeholder}
+              />
+            )}
         {totalCount > 0 && (
           <>
-            {storeCtx?.config?.listview && <ViewSwitcher />}
-
-            <SortDropdown
-              sortOptions={sortOptions}
-              value={sortBy}
-              onChange={onSortChange}
-            />
+            <div className="product-header-left">
+              <FilterButton
+                displayFilter={displayFilter}
+                type="desktop"
+                title={`Filtres`}
+              />
+            </div>
+            <div className="product-header-right">
+              {!loading && (
+                <span className="text-primary text-sm">
+                  {totalCount} results
+                </span>
+              )}
+              <SortDropdown
+                sortOptions={sortOptions}
+                value={sortBy}
+                onChange={onSortChange}
+              />
+            </div>
           </>
         )}
       </div>

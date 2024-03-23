@@ -9,8 +9,6 @@ it.
 
 import { FunctionComponent } from 'preact';
 
-import CartIcon from '../../icons/cart.svg';
-
 export interface AddToCartButtonProps {
   onClick: (e: any) => any;
 }
@@ -26,8 +24,7 @@ export const AddToCartButton: FunctionComponent<AddToCartButtonProps> = ({
         }}
         onClick={onClick}
       >
-        <CartIcon className="w-[24px] pr-4" />
-        Add To Cart
+        Ajouter Au Panier
       </button>
     </div>
   );
