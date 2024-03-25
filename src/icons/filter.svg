@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17.5 16">
-  <g id="Group_173236" data-name="Group 173236" transform="translate(-31.25)">
-    <rect id="area" width="16" height="16" transform="translate(32)" fill="none" opacity="0.3" />
+  <g id="Group_173236" data-name="Group 173236" transform="translate(-31.25)">    
     <g id="filters" transform="translate(32 0.75)">
       <line id="Line_737" data-name="Line 737" x2="10.07" transform="translate(5.93 7.11)" fill="none" stroke="#4b4b4b"
         stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />

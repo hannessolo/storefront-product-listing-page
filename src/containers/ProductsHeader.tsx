@@ -110,7 +110,8 @@ export const ProductsHeader: FunctionComponent<Props> = ({
                 placeholder={translation.SearchBar.placeholder}
               />
             )}
-        {totalCount > 0 && (
+        {!screenSize.mobile
+           && totalCount > 0 && (
           <>
             <div className="product-header-left">
               <FilterButton

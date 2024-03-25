@@ -11,6 +11,7 @@ import { FunctionComponent } from 'preact';
 
 import { useTranslation } from '../../context/translation';
 import AdjustmentsIcon from '../../icons/adjustments.svg';
+import FilterIcon from '../../icons/filter.svg';
 
 export interface FilterButtonProps {
   displayFilter: () => void;
@@ -23,14 +24,13 @@ export const FilterButton: FunctionComponent<FilterButtonProps> = ({
   title,
 }: FilterButtonProps) => {
   const translation = useTranslation();
-
   return type == 'mobile' ? (
     <div className="ds-sdk-filter-button">
       <button
         className="flex items-center bg-gray-100 ring-black ring-opacity-5 rounded-md p-sm  outline outline-gray-200 hover:outline-gray-800 h-[32px]"
         onClick={displayFilter}
       >
-        <AdjustmentsIcon className="w-md" />
+        <AdjustmentsIcon className="w-md" />        
         {translation.Filter.title}
       </button>
     </div>
@@ -40,6 +40,7 @@ export const FilterButton: FunctionComponent<FilterButtonProps> = ({
         className="flex items-center bg-gray-100 ring-black ring-opacity-5 rounded-md p-sm text-sm h-[32px]"
         onClick={displayFilter}
       >
+        <FilterIcon className="h-md w-md mr-sm stroke-gray-600 m-auto" />        
         {title}
       </button>
     </div>
