@@ -87,7 +87,7 @@ export const ProductsHeader: FunctionComponent<Props> = ({
   };
 
   return (
-    <div className="products-header flex flex-col lg:max-w-full ml-auto w-full">
+    <div className="products-header flex flex-col lg:max-w-full ml-auto w-full py-4">
       <div className={`flex gap-x-2.5 mb-[1px] justify-between`}>
         {screenSize.mobile
           ? totalCount > 0 && (

@@ -1,0 +1,25 @@
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>3F1B0C14-E20E-4A62-A067-49C97CEB2825@0,5x</title>
+    <g id="CATEGORY" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="CATEGORY-NeoFlavours_All_v2_MB_Sticky" transform="translate(-331.000000, -125.000000)">
+            <g id="Group-4-Copy" style="mix-blend-mode: multiply;" transform="translate(331.000000, 125.000000)">
+                <g id="Icon-/-Filter">
+                    <rect id="Rectangle" x="1" y="2" width="20" height="20"></rect>
+                    <g id="Group-4" transform="translate(2.000000, 6.000000)" stroke="#32271F" stroke-linecap="round">
+                        <g id="Group-3" transform="translate(9.000000, 0.500000)" stroke-width="1.2">
+                            <g id="Group-2">
+                                <line x1="0" y1="0.5" x2="11" y2="0.5" id="Line-5"></line>
+                                <line x1="0" y1="5.5" x2="8.8" y2="5.5" id="Line-5"></line>
+                                <line x1="0" y1="10.5" x2="6.6" y2="10.5" id="Line-5"></line>
+                            </g>
+                        </g>
+                        <g id="Group">
+                            <line x1="2.5" y1="0.5" x2="2.5" y2="10.5" id="Line" stroke-width="1.21"></line>
+                            <polyline id="Path-2" stroke-width="1.2" stroke-linejoin="round" points="0 8 2.5 11 5 8"></polyline>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
