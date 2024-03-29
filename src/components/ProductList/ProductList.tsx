@@ -116,13 +116,8 @@ export const ProductList: FunctionComponent<ProductListProps> = ({
           </div>
         </div>
       ) : (
-        <div
-          style={{
-            gridTemplateColumns: `repeat(${
-              showFilters ? numberOfColumns - 1 : numberOfColumns
-            }, minmax(0, 1fr))`,
-          }}
-          className="ds-sdk-product-list__grid mt-md grid gap-y-8 gap-x-2xl xl:gap-x-8"
+        <div          
+          className="ds-sdk-product-list__grid mt-md grid"
         >
           {products?.map((product, index) => {
             const currentPositionPromoTile = promoTiles?.find(

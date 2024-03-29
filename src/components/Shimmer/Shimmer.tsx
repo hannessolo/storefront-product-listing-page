@@ -25,11 +25,7 @@ export const Shimmer: FunctionComponent = () => {
             </div>
           </div>
           <div
-            className="ds-sdk-product-list__grid mt-md grid-cols-1 gap-y-8 gap-x-md sm:grid-cols-2 md:grid-cols-3 xl:gap-x-4 pl-8"
-            style={{
-              display: 'grid',
-              gridTemplateColumns: ` repeat(4, minmax(0, 1fr))`,
-            }}
+            className="ds-sdk-product-list__grid mt-md pl-8"
           >
             {productCardArray.map((_, index) => (
               <ProductCardShimmer key={index} />

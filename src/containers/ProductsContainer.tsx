@@ -121,7 +121,7 @@ export const ProductsContainer: FunctionComponent<Props> = ({
           style={{
             gridTemplateColumns: `repeat(${screenSize.columns}, minmax(0, 1fr))`,
           }}
-          className="ds-sdk-product-list__grid mt-md grid grid-cols-1 gap-y-8 gap-x-md sm:grid-cols-2 md:grid-cols-3 xl:gap-x-4 pl-8"
+          className="ds-sdk-product-list__grid mt-md grid pl-8"
         >
           {' '}
           {productCardArray.map((_, index) => (

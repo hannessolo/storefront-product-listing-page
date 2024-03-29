@@ -39,7 +39,7 @@ export const FilterButton: FunctionComponent<FilterButtonProps> = ({
         className="group flex justify-center items-center font-normal text-xs text-gray-700 rounded-md hover:cursor-pointer border-none bg-transparent hover:border-none hover:bg-transparent focus:border-none focus:bg-transparent active:border-none active:bg-transparent active:shadow-none h-full w-full px-sm"
         onClick={displayFilter}
       >
-        <FilterIcon className="h-md w-md mr-sm stroke-gray-600 m-auto" />        
+        <FilterIcon className="mr-sm stroke-gray-600 m-auto" />        
         {title}
       </button>
     </div>
