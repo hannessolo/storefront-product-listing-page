@@ -12,7 +12,7 @@ import { useState } from 'preact/hooks';
 
 import '../ProductItem/ProductItem.css';
 
-import { useCart, useProducts, useSensor, useStore } from '../../context';
+import { useProducts, useSensor, useStore } from '../../context';
 import NoImage from '../../icons/NoImage.svg';
 import {
   Product,
@@ -43,7 +43,7 @@ export interface ProductProps {
   setCartUpdated: (cartUpdated: boolean) => void;
   setItemAdded: (itemAdded: string) => void;
   setError: (error: boolean) => void;
-  addToCart?: (
+  addToCart: (
     sku: string,
     options: [],
     quantity: number
@@ -56,14 +56,14 @@ export const ProductItem: FunctionComponent<ProductProps> = ({
   currencyRate,
   setRoute,
   refineProduct,
-  setCartUpdated,
-  setItemAdded,
   setError,
   addToCart,
 }: ProductProps) => {
   const { product, productView } = item;
   const [carouselIndex, setCarouselIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
+  const [addingToCart, setAddingToCart] = useState(false);
+  const [recentlyAddedToCart, setRecentlyAddedToCart] = useState(false);
   const [selectedSwatch, setSelectedSwatch] = useState('');
   const [imagesFromRefinedProduct, setImagesFromRefinedProduct] = useState<
     ProductViewMedia[] | null
@@ -71,7 +71,6 @@ export const ProductItem: FunctionComponent<ProductProps> = ({
   const [refinedProduct, setRefinedProduct] = useState<RefinedProduct>();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   const [isHovering, setIsHovering] = useState(false);
-  const { addToCartGraphQL, refreshCart } = useCart();
   const { viewType } = useProducts();
   const {
     config: { optimizeImages, imageBaseWidth, imageCarousel, listview },
@@ -125,7 +124,6 @@ export const ProductItem: FunctionComponent<ProductProps> = ({
         product?.price_range?.minimum_price?.final_price?.value ||
       productView?.price?.regular?.amount?.value >
         productView?.price?.final?.amount?.value;
-  const isSimple = product?.__typename === 'SimpleProduct';
   const isComplexProductView = productView?.__typename === 'ComplexProductView';
   const isBundle = product?.__typename === 'BundleProduct';
   const isGrouped = product?.__typename === 'GroupedProduct';
@@ -145,25 +143,12 @@ export const ProductItem: FunctionComponent<ProductProps> = ({
 
   const handleAddToCart = async () => {
     setError(false);
-    if (addToCart) {
-      //Custom add to cart function passed in
-      await addToCart(productView.sku, [], quantity);
-    } else {
-      // Add to cart using GraphQL & Luma extension
-      const response = await addToCartGraphQL(productView.sku);
-
-      if (
-        response?.errors ||
-        response?.data?.addProductsToCart?.user_errors.length > 0
-      ) {
-        setError(true);
-        return;
-      }
-
-      setItemAdded(product.name);
-      refreshCart && refreshCart();
-      setCartUpdated(true);
-    }
+    setAddingToCart(true);
+    //Custom add to cart function passed in
+    await addToCart(productView.sku, [], quantity);
+    setAddingToCart(false);
+    setRecentlyAddedToCart(true);
+    window.setTimeout(() => setRecentlyAddedToCart(false), 2000);
   };
 
   if (listview && viewType === 'listview') {
@@ -385,8 +370,20 @@ export const ProductItem: FunctionComponent<ProductProps> = ({
       />
       <div className="pb-4 mt-sm">
         <UpdateQuantityWidget quantity={quantity} setQuantity={setQuantity} />
-        {screenSize.mobile && <AddToCartButton onClick={handleAddToCart} />}
-        {screenSize.desktop && <AddToCartButton onClick={handleAddToCart} />}
+        {screenSize.mobile && (
+          <AddToCartButton
+            onClick={handleAddToCart}
+            addingToCart={addingToCart}
+            recentlyAddedToCart={recentlyAddedToCart}
+          />
+        )}
+        {screenSize.desktop && (
+          <AddToCartButton
+            onClick={handleAddToCart}
+            addingToCart={addingToCart}
+            recentlyAddedToCart={recentlyAddedToCart}
+          />
+        )}
       </div>
     </div>
   );
