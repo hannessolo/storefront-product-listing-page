@@ -10,6 +10,9 @@ it.
 
 import { FunctionComponent } from 'preact';
 
+import PodIcon from '../../icons/dg_pod.svg';
+import LightPodIcon from '../../icons/dg_pod_w.svg';
+import TeaIcon from '../../icons/dg_tea.svg';
 import { Product, ProductAttribute } from '../../types/interface';
 
 export interface ProductCapsulesProps {
@@ -25,27 +28,28 @@ export const ProductCapsules: FunctionComponent<ProductCapsulesProps> = ({
       (attribute: ProductAttribute) => attribute.name === attributeName
     )?.value;
   };
-
+  
   const capsules = getProductViewAttributeValue('number_pods');
   const podsPerCup = getProductViewAttributeValue('pods_per_cup');
-  const cupType = getProductViewAttributeValue('cup_type');
-  const capsuleTypeIcon =
-    cupType === 'Tea Cup' ? 'capsule-icon-tea' : 'capsule-icon-ndg';
+  const cupType = getProductViewAttributeValue('cup_type');  
+  
+  const capsuleTypeIcon = cupType === 'Tea Cup' ? <TeaIcon class="plp-type-icon" /> : <PodIcon class="plp-type-icon" />;
+
 
   return (
     <div className="capsules">
       Capsules:{' '}
       {podsPerCup === '1' && (
         <>
-          x {capsules} <span className={capsuleTypeIcon} />
+          x {capsules} {capsuleTypeIcon}
         </>
       )}
       {podsPerCup !== '1' && (
         <>
           x {Number(capsules) / Number(podsPerCup)}{' '}
-          <span className={capsuleTypeIcon} />x{' '}
+          <PodIcon class="plp-type-icon" /> x{' '}
           {Number(capsules) / Number(podsPerCup)}{' '}
-          <span className={capsuleTypeIcon} />
+          <LightPodIcon class="plp-type-icon"/>
         </>
       )}
     </div>

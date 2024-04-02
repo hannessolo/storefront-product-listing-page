@@ -141,9 +141,9 @@ export const ProductsContainer: FunctionComponent<Props> = ({
           showFilters ? 'mx-auto' : 'mr-auto'
         } w-full h-full`}
       >
-        <div>
+        {totalPages > 1 && (<div>
           {getPageSizeTranslation(pageSize, pageSizeOptions, PerPagePicker)}
-        </div>
+        </div>)}
         {totalPages > 1 && (
           <Pagination
             currentPage={currentPage}
