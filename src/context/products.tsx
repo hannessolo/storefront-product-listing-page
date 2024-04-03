@@ -12,6 +12,7 @@ import { useContext, useEffect, useMemo, useState } from 'preact/hooks';
 
 import {
   getCategoryPromoTiles,
+  getProductLabels,
   getProductSearch,
   refineProductSearch,
 } from '../api/search';
@@ -20,6 +21,7 @@ import {
   FacetFilter,
   PageSizeOption,
   Product,
+  ProductLabel,
   ProductSearchQuery,
   PromoTileResponse,
   RedirectRouteFunc,
@@ -53,6 +55,8 @@ const ProductsContext = createContext<{
   setItems: (items: Product[]) => void;
   promoTiles: PromoTileResponse[];
   setPromoTiles: (promoTiles: PromoTileResponse[]) => void;
+  productLabels: ProductLabel[];
+  setProductLabels: (productLabels: ProductLabel[]) => void;
   currentPage: number;
   setCurrentPage: (page: number) => void;
   pageSize: number;
@@ -98,6 +102,8 @@ const ProductsContext = createContext<{
   setItems: () => {},
   promoTiles: [],
   setPromoTiles: () => {},
+  productLabels: [],
+  setProductLabels: () => {},
   currentPage: 1,
   setCurrentPage: () => {},
   pageSize: DEFAULT_PAGE_SIZE,
@@ -156,6 +162,7 @@ const ProductsContextProvider = ({ children }: WithChildrenProps) => {
   const [pageLoading, setPageLoading] = useState(true);
   const [items, setItems] = useState<Product[]>([]);
   const [promoTiles, setPromoTiles] = useState<PromoTileResponse[]>([]);
+  const [productLabels, setProductLabels] = useState<ProductLabel[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(pageDefault);
   const [pageSize, setPageSize] = useState<number>(pageSizeDefault);
   const [totalCount, setTotalCount] = useState<number>(0);
@@ -217,8 +224,10 @@ const ProductsContextProvider = ({ children }: WithChildrenProps) => {
     loading,
     items,
     setItems,
-    promoTiles,
+    promoTiles,    
     setPromoTiles,
+    productLabels,
+    setProductLabels,
     currentPage,
     setCurrentPage,
     pageSize,
@@ -271,14 +280,25 @@ const ProductsContextProvider = ({ children }: WithChildrenProps) => {
           categorySearch: !!categoryPath,
         });
 
+        const productIds = data?.productSearch?.items?.map(item => item.product.id);
+
+        let productLables: ProductLabel[] = [];
+        if (productIds) {
+          productLables = await getProductLabels({
+            productIds,
+            apiUrl: storeCtx.apiUrl,
+          });          
+        }
+        setProductLabels(productLables);
+
         let categoryPromoTiles: PromoTileResponse[] = [];
         if (categoryPath && categoryPath.length > 0) {
           categoryPromoTiles = await getCategoryPromoTiles({
             promoTilesDataPath: storeCtx.promoTilesDataPath,
             categoryPath,
-          });
-          setPromoTiles(categoryPromoTiles);
+          });          
         }
+        setPromoTiles(categoryPromoTiles);
 
         setItems(data?.productSearch?.items || []);
         setFacets(data?.productSearch?.facets || []);

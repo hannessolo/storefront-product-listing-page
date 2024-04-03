@@ -17,6 +17,7 @@ import NoImage from '../../icons/NoImage.svg';
 import {
   Product,
   ProductAttribute,
+  ProductLabel,
   ProductViewMedia,
   RedirectRouteFunc,
   RefinedProduct,
@@ -31,12 +32,13 @@ import { AddToCartButton } from '../AddToCartButton';
 import { ImageCarousel } from '../ImageCarousel';
 import { SwatchButtonGroup } from '../SwatchButtonGroup';
 import { UpdateQuantityWidget } from '../UpdateQuantityWidget';
+import OutOfStockDisplay from './OutOfStockDisplay';
 import ProductCapsules from './ProductCapsules';
 import ProductPrice from './ProductPrice';
-import OutOfStockDisplay from './OutOfStockDisplay';
 
 export interface ProductProps {
   item: Product;
+  productLabels?: ProductLabel[];
   currencySymbol: string;
   currencyRate?: string;
   setRoute?: RedirectRouteFunc | undefined;
@@ -300,6 +302,12 @@ export const ProductItem: FunctionComponent<ProductProps> = ({
           onClick={onProductClick}
           className="!text-primary hover:no-underline hover:text-primary"
         >
+          {(!productView.inStock || productView.asdf) &&
+          <div class="product-card__badges">
+            <div class="product-badge">
+              {!productView.inStock && <span>EN RUPTURE DE STOCK</span>}
+            </div>
+          </div>}
           {getProductViewAttributeValue('coffee_intensity') && (
             <div className="ds-sdk-product-item__intensity">
               <span className="intensity-text">Intensité</span>

@@ -14,6 +14,8 @@ import {
   AttributeMetadataResponse,
   ClientProps,
   MagentoHeaders,
+  ProductLabel,
+  ProductLabelResponse,
   ProductSearchQuery,
   ProductSearchResponse,
   PromoTileResponse,
@@ -21,11 +23,8 @@ import {
   RefineProductQuery,
 } from '../types/interface';
 import { SEARCH_UNIT_ID } from '../utils/constants';
-import {
-  ATTRIBUTE_METADATA_QUERY,
-  PRODUCT_SEARCH_QUERY,
-  REFINE_PRODUCT_QUERY,
-} from './queries';
+import { getGraphQL } from './graphql';
+import {ATTRIBUTE_METADATA_QUERY, PRODUCT_LABEL_QUERY,PRODUCT_SEARCH_QUERY, REFINE_PRODUCT_QUERY} from './queries';
 
 const getHeaders = (headers: MagentoHeaders) => {
   return {
@@ -48,7 +47,7 @@ const getProductSearch = async ({
   apiKey,
   apiUrl,
   phrase,
-  pageSize = 24,
+  pageSize = 200,
   displayOutOfStock,
   currentPage = 1,
   xRequestId = uuidv4(),
@@ -211,6 +210,33 @@ const getCategoryPromoTiles = async ({
   }
 };
 
+
+const getProductLabels = async ({
+  productIds,
+}: {
+  productIds: number[];
+  apiUrl: string;  
+}): Promise<ProductLabel[]> => {
+  try {
+
+    const variables = {
+      productIds,
+      mode: 'CATEGORY',
+    };
+
+    const response = await getGraphQL(
+        PRODUCT_LABEL_QUERY,
+         { ...variables },
+      );
+
+    const results: ProductLabelResponse = await response.json();
+    return results?.data.amLabelProvider?.flatMap(item => item.items);
+
+  } catch (error) {
+    return [];
+  }
+};
+
 const refineProductSearch = async ({
   environmentId,
   websiteCode,
@@ -255,4 +281,5 @@ export {
   getProductSearch,
   refineProductSearch,
   getCategoryPromoTiles,
+  getProductLabels,
 };

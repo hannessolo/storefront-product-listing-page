@@ -57,6 +57,26 @@ const QUICK_SEARCH_QUERY = `
     ${Product}
 `;
 
+
+const PRODUCT_LABEL_QUERY = `
+    query AmastyLabels(
+        $productIds: [Number!]
+        $mode: String
+    ) {
+        amLabelProvider(
+            productIds: $productIds
+            mode: $mode
+        ) {
+            items {
+                product_id
+                position
+                txt
+                style
+            }
+        }
+    }
+`;
+
 const PRODUCT_SEARCH_QUERY = `
     query productSearch(
         $phrase: String!
@@ -199,4 +219,5 @@ export {
   PRODUCT_SEARCH_QUERY,
   QUICK_SEARCH_QUERY,
   REFINE_PRODUCT_QUERY,
+  PRODUCT_LABEL_QUERY,
 };

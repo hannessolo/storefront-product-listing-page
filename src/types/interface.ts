@@ -175,6 +175,23 @@ export interface PromoTileResponse {
   path: string;
 }
 
+export interface ProductLabelResponse {
+  data: {
+    amLabelProvider: {
+      items: ProductLabel[];
+    }[];
+  }
+}
+
+export interface ProductLabel {
+  product_id: number;
+  position: "top-left" | "top-right" | "top-center" | "bottom-left" | "bottom-right" | "bottom-center" | "middle-left" | "middle-bottom" | "middle-center";
+  txt: string;
+  style: string;
+}
+
+
+
 export interface Product {
   product: {
     __typename: string;
