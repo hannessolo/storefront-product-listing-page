@@ -67,4 +67,8 @@ export const en_US = {
   ListView: {
     viewDetails: 'View details',
   },
+  OutOfStockDisplay: {    
+    outOfStock: 'out of stock',
+    notifyMe: "Notify me when available",
+  },
 };

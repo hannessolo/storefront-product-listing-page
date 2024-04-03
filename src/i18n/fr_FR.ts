@@ -41,6 +41,10 @@ export const fr_FR = {
     results: 'résultats trouvés pour {phrase}',
     products: '{totalCount} produits',
   },
+  OutOfStockDisplay: {    
+    outOfStock: 'en rupture de stock',
+    notifyMe: "M'alerter lorsqu'il sera disponible",
+  },
   ProductCard: {
     asLowAs: 'Prix descendant jusqu’à {discountPrice}',
     startingAt: 'À partir de {productPrice}',

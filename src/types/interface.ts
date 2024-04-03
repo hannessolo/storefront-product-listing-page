@@ -243,6 +243,7 @@ export interface Product {
     media_gallery: null | ProductViewMedia;
     custom_attributes: null | CustomAttribute;
     add_to_cart_allowed: null | boolean;
+    inStock: boolean;
     options:
       | null
       | {

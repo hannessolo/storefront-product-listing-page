@@ -33,6 +33,7 @@ import { SwatchButtonGroup } from '../SwatchButtonGroup';
 import { UpdateQuantityWidget } from '../UpdateQuantityWidget';
 import ProductCapsules from './ProductCapsules';
 import ProductPrice from './ProductPrice';
+import OutOfStockDisplay from './OutOfStockDisplay';
 
 export interface ProductProps {
   item: Product;
@@ -200,7 +201,7 @@ export const ProductItem: FunctionComponent<ProductProps> = ({
               </a>
 
               {/* Swatch */}
-              <div className="ds-sdk-product-item__product-swatch flex flex-row mt-sm text-sm text-primary pb-6">
+              <div className="ds-sdk-product-item__product-swatch flex flex-row mt-sm text-sm text-primary pb-6 ab-c">
                 {productView?.options?.map(
                   (swatches) =>
                     swatches.id === 'color' && (
@@ -283,10 +284,10 @@ export const ProductItem: FunctionComponent<ProductProps> = ({
   //   // eslint-disable-next-line no-console
   //   console.log(productView);
   // }
-
+  
   return (
     <div
-      className="ds-sdk-product-item group relative flex flex-col max-w-sm justify-between h-full hover:border-[1.5px] border-solid hover:shadow-lg border-offset-2 p-2"
+      className={`ds-sdk-product-item group relative flex flex-col max-w-sm justify-between h-full hover:border-[1.5px] border-solid hover:shadow-lg border-offset-2 p-2 ${productView.inStock ? 'in-stock' : 'out-of-stock'}`} 
       style={{
         'border-color': '#D5D5D5',
       }}
@@ -339,8 +340,8 @@ export const ProductItem: FunctionComponent<ProductProps> = ({
         </div>
       </div>
 
-      {productView?.options && productView.options?.length > 0 && (
-        <div className="ds-sdk-product-item__product-swatch flex flex-row mt-sm text-sm text-primary">
+      {productView?.options?.find(item => item.id === 'color') && (
+        <div className="ds-sdk-product-item__product-swatch flex flex-row mt-sm text-sm text-primary ccc">
           {productView?.options?.map(
             (swatches) =>
               swatches.id == 'color' && (
@@ -357,7 +358,7 @@ export const ProductItem: FunctionComponent<ProductProps> = ({
           )}
         </div>
       )}
-      <ProductPrice
+      {productView.inStock ? (<><ProductPrice
         item={refinedProduct ?? item}
         isBundle={isBundle}
         isGrouped={isGrouped}
@@ -384,7 +385,7 @@ export const ProductItem: FunctionComponent<ProductProps> = ({
             recentlyAddedToCart={recentlyAddedToCart}
           />
         )}
-      </div>
+      </div></>) : (<OutOfStockDisplay item={refinedProduct ?? item} />)}
     </div>
   );
 };
