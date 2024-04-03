@@ -57,15 +57,13 @@ const QUICK_SEARCH_QUERY = `
     ${Product}
 `;
 
-
 const PRODUCT_LABEL_QUERY = `
     query AmastyLabels(
-        $productIds: [Number!]
-        $mode: String
+        $productIds: [Int!]
     ) {
         amLabelProvider(
             productIds: $productIds
-            mode: $mode
+            mode: CATEGORY
         ) {
             items {
                 product_id

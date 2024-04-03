@@ -24,7 +24,12 @@ import {
 } from '../types/interface';
 import { SEARCH_UNIT_ID } from '../utils/constants';
 import { getGraphQL } from './graphql';
-import {ATTRIBUTE_METADATA_QUERY, PRODUCT_LABEL_QUERY,PRODUCT_SEARCH_QUERY, REFINE_PRODUCT_QUERY} from './queries';
+import {
+  ATTRIBUTE_METADATA_QUERY,
+  PRODUCT_LABEL_QUERY,
+  PRODUCT_SEARCH_QUERY,
+  REFINE_PRODUCT_QUERY,
+} from './queries';
 
 const getHeaders = (headers: MagentoHeaders) => {
   return {
@@ -210,28 +215,24 @@ const getCategoryPromoTiles = async ({
   }
 };
 
-
 const getProductLabels = async ({
   productIds,
+  apiUrl,
 }: {
   productIds: number[];
-  apiUrl: string;  
+  apiUrl: string;
 }): Promise<ProductLabel[]> => {
   try {
-
     const variables = {
       productIds,
-      mode: 'CATEGORY',
     };
 
-    const response = await getGraphQL(
-        PRODUCT_LABEL_QUERY,
-         { ...variables },
-      );
+    const response = await getGraphQL(apiUrl, PRODUCT_LABEL_QUERY, {
+      ...variables,
+    });
 
     const results: ProductLabelResponse = await response.json();
-    return results?.data.amLabelProvider?.flatMap(item => item.items);
-
+    return results?.data.amLabelProvider?.flatMap((item) => item.items);
   } catch (error) {
     return [];
   }
