@@ -227,11 +227,10 @@ const getProductLabels = async ({
       productIds,
     };
 
-    const response = await getGraphQL(apiUrl, PRODUCT_LABEL_QUERY, {
+    const results: ProductLabelResponse = await getGraphQL(apiUrl, PRODUCT_LABEL_QUERY, {
       ...variables,
     });
 
-    const results: ProductLabelResponse = await response.json();
     return results?.data.amLabelProvider?.flatMap((item) => item.items);
   } catch (error) {
     return [];

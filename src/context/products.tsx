@@ -282,14 +282,14 @@ const ProductsContextProvider = ({ children }: WithChildrenProps) => {
 
         const productIds = data?.productSearch?.items?.map(item => item.product.id);
 
-        let productLables: ProductLabel[] = [];
+        let productLablesResult: ProductLabel[] = [];
         if (productIds) {
-          productLables = await getProductLabels({
+          productLablesResult = await getProductLabels({
             productIds,
             apiUrl: storeCtx.apiUrl,
           });          
         }
-        setProductLabels(productLables);
+        setProductLabels(productLablesResult);
 
         let categoryPromoTiles: PromoTileResponse[] = [];
         if (categoryPath && categoryPath.length > 0) {

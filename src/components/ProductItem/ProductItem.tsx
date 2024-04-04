@@ -55,6 +55,7 @@ export interface ProductProps {
 
 export const ProductItem: FunctionComponent<ProductProps> = ({
   item,
+  productLabels,
   currencySymbol,
   currencyRate,
   setRoute,
@@ -302,10 +303,10 @@ export const ProductItem: FunctionComponent<ProductProps> = ({
           onClick={onProductClick}
           className="!text-primary hover:no-underline hover:text-primary"
         >
-          {(!productView.inStock || productView.asdf) &&
+          {(!productView.inStock || productLabels && productLabels.length > 0) &&
           <div class="product-card__badges">
-            <div class="product-badge">
-              {!productView.inStock && <span>EN RUPTURE DE STOCK</span>}
+            <div class="product-badge" style={productView.inStock ? productLabels?.[0].style : ""}>
+              {!productView.inStock ?  <span>EN RUPTURE DE STOCK</span> : <span>{productLabels?.[0].txt}</span>}
             </div>
           </div>}
           {getProductViewAttributeValue('coffee_intensity') && (

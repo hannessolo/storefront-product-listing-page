@@ -100,6 +100,7 @@ export const ProductList: FunctionComponent<ProductListProps> = ({
                   )}
                   <ProductItem
                     item={product}
+                    productLabels={productsCtx.productLabels.filter(item => item.product_id === product.product.id)}
                     setError={setError}
                     key={product?.productView?.id}
                     currencySymbol={currencySymbol}
