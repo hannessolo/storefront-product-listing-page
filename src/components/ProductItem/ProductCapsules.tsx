@@ -28,13 +28,16 @@ export const ProductCapsules: FunctionComponent<ProductCapsulesProps> = ({
       (attribute: ProductAttribute) => attribute.name === attributeName
     )?.value;
   };
-  
+
   const capsules = getProductViewAttributeValue('number_pods');
   const podsPerCup = getProductViewAttributeValue('pods_per_cup');
-  const cupType = getProductViewAttributeValue('cup_type');  
-  
+  const cupType = getProductViewAttributeValue('cup_type');
+
   const capsuleTypeIcon = cupType === 'Tea Cup' ? <TeaIcon class="plp-type-icon" /> : <PodIcon class="plp-type-icon" />;
 
+  if (!capsules) {
+    return <></>
+  }
 
   return (
     <div className="capsules">
