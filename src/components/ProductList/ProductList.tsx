@@ -58,6 +58,13 @@ export const ProductList: FunctionComponent<ProductListProps> = ({
     refreshCart && refreshCart();
   }, [itemAdded]);
 
+  // move out of stock products to bottom of list
+  const inStockProductsFirst = [
+    ...products?.filter((p) => p.productView.inStock) ?? [],
+    ...products?.filter((p) => !p.productView.inStock) ?? []
+  ];
+
+
   return (
     <div
       className={classNames('ds-sdk-product-list pb-2xl sm:pb-24', className)}
@@ -86,7 +93,7 @@ export const ProductList: FunctionComponent<ProductListProps> = ({
       {listview && viewType === 'listview' ? (
         <div className="w-full">
           <div className="ds-sdk-product-list__list-view-default mt-md grid grid-cols-none pt-[15px] w-full gap-[10px]">
-            {products?.map((product, index) => {
+            {inStockProductsFirst?.map((product, index) => {
               const currentPositionPromoTile = promoTiles?.find(
                 (item) => item.position === (index + 1).toString()
               );
@@ -117,10 +124,10 @@ export const ProductList: FunctionComponent<ProductListProps> = ({
           </div>
         </div>
       ) : (
-        <div          
+        <div
           className="ds-sdk-product-list__grid mt-md grid"
         >
-          {products?.map((product, index) => {
+          {inStockProductsFirst?.map((product, index) => {
             const currentPositionPromoTile = promoTiles?.find(
               (item) => item.position === (index + 1).toString()
             );

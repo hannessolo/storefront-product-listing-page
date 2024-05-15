@@ -105,6 +105,9 @@ const commonConfig = {
 
     ],
   },
+  externals: {
+    '/aem/scripts/stock-reminder/stock-reminder.js': '/aem/scripts/stock-reminder/stock-reminder.js',
+  },
   plugins: [
     new webpack.BannerPlugin(banner),
   ],
