@@ -86,6 +86,12 @@ export const ProductsHeader: FunctionComponent<Props> = ({
     handleUrlSort(sortOption);
   };
 
+  const getResults = (totalCount: number) => {
+    const resultsTranslation = translation.CategoryFilters.products;
+    const results = resultsTranslation.replace('{totalCount}', `${totalCount}`);
+    return results;
+  };
+
   return (
     <div className="products-header flex flex-col lg:max-w-full ml-auto w-full py-4">
       <div className={`flex gap-x-2.5 mb-[1px] justify-between`}>
@@ -123,7 +129,7 @@ export const ProductsHeader: FunctionComponent<Props> = ({
             <div className="product-header-right">
               {!loading && (
                 <span className="text-primary text-sm">
-                  {totalCount} results
+                  {getResults(totalCount)}
                 </span>
               )}
               <SortDropdown

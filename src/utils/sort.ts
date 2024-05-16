@@ -39,6 +39,8 @@ const getSortOptionsfromMetadata = (
       ];
   const displayInStockOnly = displayOutOfStock != '1'; // '!=' is intentional for conversion
 
+  console.log(sortMetadata)
+
   if (sortMetadata && sortMetadata.length > 0) {
     sortMetadata.forEach((e) => {
       if (
@@ -53,16 +55,16 @@ const getSortOptionsfromMetadata = (
       ) {
         if (e.numeric && e.attribute.includes('price')) {
           sortOptions.push({
-            label: `${e.label}: Low to High`,
+            label: `${translation.SortDropdown.customLabels?.[e.label] || e.label}: ${translation.SortDropdown.lowToHigh || 'Low to High'}`,
             value: `${e.attribute}_ASC`,
           });
           sortOptions.push({
-            label: `${e.label}: High to Low`,
+            label: `${translation.SortDropdown.customLabels?.[e.label] || e.label}: ${translation.SortDropdown.highToLow || 'High to Low'}`,
             value: `${e.attribute}_DESC`,
           });
         } else {
           sortOptions.push({
-            label: `${e.label}`,
+            label: `${translation.SortDropdown.customLabels?.[e.label] || e.label}`,
             value: `${e.attribute}_DESC`,
           });
         }

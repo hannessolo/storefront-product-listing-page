@@ -36,12 +36,18 @@ export const fr_FR = {
     option: 'Trier par : {selectedOption}',
     relevanceLabel: 'Pertinence',
     positionLabel: 'Position',
+    lowToHigh: 'Croissant',
+    highToLow: 'Décroissant',
+    customLabels: {
+      'Product Name': 'Nom',
+      Price: 'Prix',
+    }
   },
   CategoryFilters: {
     results: 'résultats trouvés pour {phrase}',
     products: '{totalCount} produits',
   },
-  OutOfStockDisplay: {    
+  OutOfStockDisplay: {
     outOfStock: 'en rupture de stock',
     notifyMe: "M'alerter lorsqu'il sera disponible",
   },
