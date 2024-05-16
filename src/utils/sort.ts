@@ -39,8 +39,6 @@ const getSortOptionsfromMetadata = (
       ];
   const displayInStockOnly = displayOutOfStock != '1'; // '!=' is intentional for conversion
 
-  console.log(sortMetadata)
-
   if (sortMetadata && sortMetadata.length > 0) {
     sortMetadata.forEach((e) => {
       if (
