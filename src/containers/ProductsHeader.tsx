@@ -41,7 +41,13 @@ interface Props {
     columns: number;
   };
 }
-export const ProductsHeader: FunctionComponent<Props> = ({
+export const ProductsHeader: ({
+                                loading,
+                                facets,
+                                displayFilter,
+                                totalCount,
+                                screenSize
+                              }: { loading: any; facets: any; displayFilter: any; totalCount: any; screenSize: any }) => JSX.Element = ({
   loading,
   facets,
   displayFilter,
@@ -75,16 +81,26 @@ export const ProductsHeader: FunctionComponent<Props> = ({
   }, [getSortOptions]);
 
   const defaultSortOption = storeCtx.config?.currentCategoryUrlPath
-    ? 'position_ASC'
-    : 'relevance_DESC';
+    ? 'position'
+    : 'relevance';
   const sortFromUrl = getValueFromUrl('product_list_order');
+  const directionFromUrl = getValueFromUrl('product_list_direction');
   const sortByDefault = sortFromUrl ? sortFromUrl : defaultSortOption;
   const [sortBy, setSortBy] = useState<string>(sortByDefault);
+  const [sortOrder, setSortOrder] = useState<'ASC' | 'DESC'>(
+    (directionFromUrl === 'ASC' || directionFromUrl === 'DESC') ? directionFromUrl : 'ASC'
+  );
   const onSortChange = (sortOption: string) => {
+    console.log(sortOption)
     setSortBy(sortOption);
-    searchCtx.setSort(generateGQLSortInput(sortOption));
-    handleUrlSort(sortOption);
+    searchCtx.setSort(generateGQLSortInput(sortOption, sortOrder));
+    handleUrlSort(sortOption, sortOrder);
   };
+  const onSortOrderChange = (sortOrder: 'ASC' | 'DESC') => {
+    setSortOrder(sortOrder);
+    searchCtx.setSort(generateGQLSortInput(sortBy, sortOrder));
+    handleUrlSort(sortBy, sortOrder);
+  }
 
   const getResults = (totalCount: number) => {
     const resultsTranslation = translation.CategoryFilters.products;
@@ -134,7 +150,9 @@ export const ProductsHeader: FunctionComponent<Props> = ({
               )}
               <SortDropdown
                 sortOptions={sortOptions}
+                onSortOrderChange={onSortOrderChange}
                 value={sortBy}
+                order={sortOrder}
                 onChange={onSortChange}
               />
             </div>

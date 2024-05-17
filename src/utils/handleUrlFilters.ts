@@ -69,10 +69,11 @@ const removeAllUrlFilters = () => {
   window.history.pushState({}, '', `${url.pathname}?${params.toString()}`);
 };
 
-const handleUrlSort = (sortOption: string) => {
+const handleUrlSort = (sortOption: string, direction: 'ASC' | 'DESC') => {
   const url = new URL(window.location.href);
   const params = new URLSearchParams(url.searchParams);
   params.set('product_list_order', sortOption);
+  params.set('product_list_direction', direction);
   window.history.pushState({}, '', `${url.pathname}?${params}`);
 };
 

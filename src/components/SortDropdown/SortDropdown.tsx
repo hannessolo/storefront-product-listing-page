@@ -18,12 +18,16 @@ export interface SortDropdownProps {
   value: string;
   sortOptions: SortOption[];
   onChange: (sortBy: string) => void;
+  onSortOrderChange: (sortOrder: 'ASC' | 'DESC') => void;
+  order: 'ASC' | 'DESC';
 }
 
-export const SortDropdown: FunctionComponent<SortDropdownProps> = ({
+export const SortDropdown: ({value, sortOptions, onChange, onSortOrderChange, order}: SortDropdownProps) => JSX.Element = ({
   value,
   sortOptions,
   onChange,
+  onSortOrderChange,
+  order
 }: SortDropdownProps) => {
   const sortOptionButton = useRef<HTMLButtonElement | null>(null);
   const sortOptionMenu = useRef<HTMLDivElement | null>(null);
@@ -83,7 +87,6 @@ export const SortDropdown: FunctionComponent<SortDropdownProps> = ({
           onBlur={() => setIsFocus(false)}
         >
           {selectedOption?.label}
-          <SortIcon className="h-md w-md mr-sm stroke-gray-600 m-auto" />
         </button>
         {isDropdownOpen && (
           <ul
@@ -117,6 +120,12 @@ export const SortDropdown: FunctionComponent<SortDropdownProps> = ({
           </ul>
         )}
       </div>
+      <button
+        className="group flex justify-center items-center font-normal text-xs text-gray-700 rounded-md hover:cursor-pointer border-none bg-transparent hover:border-none hover:bg-transparent focus:border-none focus:bg-transparent active:border-none active:bg-transparent active:shadow-none h-full w-full px-sm"
+        onClick={() => onSortOrderChange(order === 'ASC' ? 'DESC' : 'ASC')}
+      >
+        <SortIcon style={{transform: `scaleY(${order === 'ASC' ? -1 : 1})`}} className="h-md w-md mr-sm stroke-gray-600 m-auto" />
+      </button>
     </>
   );
 };

@@ -12,9 +12,9 @@ import { GQLSortInput, SortMetadata, SortOption } from '../types/interface';
 
 const defaultSortOptions = (): SortOption[] => {
   return [
-    { label: 'Most Relevant', value: 'relevance_DESC' },
-    { label: 'Price: Low to High', value: 'price_ASC' },
-    { label: 'Price: High to Low', value: 'price_DESC' },
+    { label: 'Most Relevant', value: 'relevance' },
+    { label: 'Price: Low to High', value: 'price' },
+    { label: 'Price: High to Low', value: 'price' },
   ];
 };
 
@@ -28,13 +28,13 @@ const getSortOptionsfromMetadata = (
     ? [
         {
           label: translation.SortDropdown.positionLabel,
-          value: 'position_ASC',
+          value: 'position',
         },
       ]
     : [
         {
           label: translation.SortDropdown.relevanceLabel,
-          value: 'relevance_DESC',
+          value: 'relevance',
         },
       ];
   const displayInStockOnly = displayOutOfStock != '1'; // '!=' is intentional for conversion
@@ -51,21 +51,10 @@ const getSortOptionsfromMetadata = (
                 3) if the option attribute is "position" and there is not a categoryPath (we're not in category browse mode) -> the conditional part is handled in setting sortOptions
                 */
       ) {
-        if (e.numeric && e.attribute.includes('price')) {
-          sortOptions.push({
-            label: `${translation.SortDropdown.customLabels?.[e.label] || e.label}: ${translation.SortDropdown.lowToHigh || 'Low to High'}`,
-            value: `${e.attribute}_ASC`,
-          });
-          sortOptions.push({
-            label: `${translation.SortDropdown.customLabels?.[e.label] || e.label}: ${translation.SortDropdown.highToLow || 'High to Low'}`,
-            value: `${e.attribute}_DESC`,
-          });
-        } else {
-          sortOptions.push({
-            label: `${translation.SortDropdown.customLabels?.[e.label] || e.label}`,
-            value: `${e.attribute}_DESC`,
-          });
-        }
+        sortOptions.push({
+          label: `${translation.SortDropdown.customLabels?.[e.label] || e.label}`,
+          value: e.attribute,
+        });
       }
     });
   }
@@ -73,19 +62,18 @@ const getSortOptionsfromMetadata = (
 };
 
 const generateGQLSortInput = (
-  sortOption: string
+  sortOption: string,
+  sortDirection: 'ASC' | 'DESC',
 ): GQLSortInput[] | undefined => {
   // results sorted by relevance or position by default
   if (!sortOption) {
     return undefined;
   }
 
-  // sort options are in format attribute_direction
-  const index = sortOption.lastIndexOf('_');
   return [
     {
-      attribute: sortOption.substring(0, index),
-      direction: sortOption.substring(index + 1) === 'ASC' ? 'ASC' : 'DESC',
+      attribute: sortOption,
+      direction: sortDirection || 'ASC',
     },
   ];
 };

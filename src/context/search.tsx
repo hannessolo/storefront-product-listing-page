@@ -51,9 +51,10 @@ const SearchProvider: FunctionComponent = ({ children }) => {
   const storeCtx = useStore();
   const phraseFromUrl = getValueFromUrl(storeCtx.searchQuery || 'q');
 
-  const sortFromUrl = getValueFromUrl('product_list_order');
+  const sortAttrFromUrl = getValueFromUrl('product_list_order');
+  const sortDirectionFromUrl = getValueFromUrl('product_list_direction');
 
-  const graphQLSort = generateGQLSortInput(sortFromUrl);
+  const graphQLSort = generateGQLSortInput(sortAttrFromUrl, sortDirectionFromUrl);
   const sortDefault = graphQLSort
     ? (graphQLSort as ProductSearchSortInput[])
     : SEARCH_SORT_DEFAULT; // default to "relevance" sort
