@@ -278,19 +278,10 @@ export const ProductItem: FunctionComponent<ProductProps> = ({
       (attribute: ProductAttribute) => attribute.name === attributeName
     )?.value;
   };
-  // if (
-  //   product.sku.includes('TOFFEE NUT LATTE') ||
-  //   product.name.includes('SPECIAL.T')
-  // ) {
-  //   // eslint-disable-next-line no-console
-  //   console.log(product);
-  //   // eslint-disable-next-line no-console
-  //   console.log(productView);
-  // }
-  
+
   return (
     <div
-      className={`ds-sdk-product-item group relative flex flex-col max-w-sm justify-between h-full hover:border-[1.5px] border-solid hover:shadow-lg border-offset-2 p-2 ${productView.inStock ? 'in-stock' : 'out-of-stock'}`} 
+      className={`ds-sdk-product-item group relative flex flex-col max-w-sm justify-between h-full hover:border-[1.5px] border-solid hover:shadow-lg border-offset-2 p-2 ${productView.inStock ? 'in-stock' : 'out-of-stock'}`}
       style={{
         'border-color': '#D5D5D5',
       }}

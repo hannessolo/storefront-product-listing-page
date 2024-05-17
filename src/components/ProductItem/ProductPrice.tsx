@@ -83,7 +83,7 @@ export const ProductPrice: FunctionComponent<ProductPriceProps> = ({
         )
       );
     }
-    return <>{fromPrice}</>;
+    return getDiscountedPrice();
   };
 
   const getPriceFormat = (
@@ -107,30 +107,28 @@ export const ProductPrice: FunctionComponent<ProductPriceProps> = ({
     );
   };
 
-  const getDiscountedPrice = (discount: boolean | undefined) => {
-    const discountPrice = discount ? (
-      <>
-        <span className="line-through pr-2">
-          {getProductPrice(item, currencySymbol, currencyRate, false, false)}
-        </span>
+  const getDiscountedPrice = () => {
+    return (
+      <p className="ds-sdk-product-price--discount mt-xs text-sm font-medium text-gray-900 my-auto">
+                <span className="line-through pr-2">
+                  {getProductPrice(
+                    item,
+                    currencySymbol,
+                    currencyRate,
+                    false,
+                    false
+                  )}
+                </span>
         <span className="text-secondary">
-          {getProductPrice(item, currencySymbol, currencyRate, false, true)}
-        </span>
-      </>
-    ) : (
-      getProductPrice(item, currencySymbol, currencyRate, false, true)
-    );
-    const discountedPriceTranslation = translation.ProductCard.asLowAs;
-    const discountedPriceTranslationOrder =
-      discountedPriceTranslation.split('{discountPrice}');
-    return discountedPriceTranslationOrder.map((word: string, index: any) =>
-      word === '' ? (
-        discountPrice
-      ) : (
-        <span className="text-gray-500 text-xs font-normal mr-xs" key={index}>
-          {word}
-        </span>
-      )
+                  {getProductPrice(
+                    item,
+                    currencySymbol,
+                    currencyRate,
+                    false,
+                    true
+                  )}
+                </span>
+      </p>
     );
   };
 
@@ -142,28 +140,7 @@ export const ProductPrice: FunctionComponent<ProductPriceProps> = ({
             !isGrouped &&
             !isConfigurable &&
             !isComplexProductView &&
-            discount && (
-              <p className="ds-sdk-product-price--discount mt-xs text-sm font-medium text-gray-900 my-auto">
-                <span className="line-through pr-2">
-                  {getProductPrice(
-                    item,
-                    currencySymbol,
-                    currencyRate,
-                    false,
-                    false
-                  )}
-                </span>
-                <span className="text-secondary">
-                  {getProductPrice(
-                    item,
-                    currencySymbol,
-                    currencyRate,
-                    false,
-                    true
-                  )}
-                </span>
-              </p>
-            )}
+            discount && (getDiscountedPrice())}
 
           {!isBundle &&
             !isGrouped &&
@@ -206,7 +183,7 @@ export const ProductPrice: FunctionComponent<ProductPriceProps> = ({
             !isBundle &&
             (isConfigurable || isComplexProductView) && (
               <p className="ds-sdk-product-price--configurable mt-xs text-sm font-medium text-gray-900 my-auto">
-                {getDiscountedPrice(discount)}
+                {getDiscountedPrice()}
               </p>
             )}
         </div>
