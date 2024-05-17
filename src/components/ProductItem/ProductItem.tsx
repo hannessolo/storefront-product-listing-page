@@ -279,10 +279,6 @@ export const ProductItem: FunctionComponent<ProductProps> = ({
     )?.value;
   };
 
-  if (item?.product?.name?.includes('CAFÉ AU LAIT MAGNUM 30 CAPSULES')) {
-    console.log(item);
-  }
-
   return (
     <div
       className={`ds-sdk-product-item group relative flex flex-col max-w-sm justify-between h-full hover:border-[1.5px] border-solid hover:shadow-lg border-offset-2 p-2 ${productView.inStock ? 'in-stock' : 'out-of-stock'}`}
