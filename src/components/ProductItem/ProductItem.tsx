@@ -297,7 +297,7 @@ export const ProductItem: FunctionComponent<ProductProps> = ({
           {(!productView.inStock || productLabels && productLabels.length > 0) &&
           <div class="product-card__badges">
             <div class="product-badge" style={productView.inStock ? productLabels?.[0].style : ""}>
-              {!productView.inStock ?  <span>EN RUPTURE DE STOCK</span> : <span>{productLabels?.[0].txt}</span>}
+              {!productView.inStock ?  <span>EN RUPTURE DE STOCK</span> : <span dangerouslySetInnerHTML={{__html: productLabels?.[0].txt}} />}
             </div>
           </div>}
           {getProductViewAttributeValue('coffee_intensity') && (
