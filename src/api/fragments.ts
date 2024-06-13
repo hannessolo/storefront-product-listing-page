@@ -137,9 +137,6 @@ const Product = `
             __typename
             id
             sku
-            description {
-                html
-            }
             short_description{
                 html
             }

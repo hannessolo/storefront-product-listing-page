@@ -224,7 +224,7 @@ const ProductsContextProvider = ({ children }: WithChildrenProps) => {
     loading,
     items,
     setItems,
-    promoTiles,    
+    promoTiles,
     setPromoTiles,
     productLabels,
     setProductLabels,
@@ -287,7 +287,7 @@ const ProductsContextProvider = ({ children }: WithChildrenProps) => {
           productLablesResult = await getProductLabels({
             productIds,
             apiUrl: storeCtx.apiUrl,
-          });          
+          });
         }
         setProductLabels(productLablesResult);
 
@@ -296,7 +296,7 @@ const ProductsContextProvider = ({ children }: WithChildrenProps) => {
           categoryPromoTiles = await getCategoryPromoTiles({
             promoTilesDataPath: storeCtx.promoTilesDataPath,
             categoryPath,
-          });          
+          });
         }
         setPromoTiles(categoryPromoTiles);
 
