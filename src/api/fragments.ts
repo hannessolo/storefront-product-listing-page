@@ -85,6 +85,7 @@ const ProductView = `
                     title
                     values {
                         title
+                        id
                         ... on ProductViewOptionValueSwatch {
                             id
                             inStock

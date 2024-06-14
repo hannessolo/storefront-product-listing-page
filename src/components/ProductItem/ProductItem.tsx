@@ -53,7 +53,16 @@ export interface ProductProps {
   ) => Promise<void | undefined>;
 }
 
-export const ProductItem: FunctionComponent<ProductProps> = ({
+export const ProductItem: ({
+                             item,
+                             productLabels,
+                             currencySymbol,
+                             currencyRate,
+                             setRoute,
+                             refineProduct,
+                             setError,
+                             addToCart
+                           }: ProductProps) => (JSX.Element) = ({
   item,
   productLabels,
   currencySymbol,
@@ -148,8 +157,18 @@ export const ProductItem: FunctionComponent<ProductProps> = ({
   const handleAddToCart = async () => {
     setError(false);
     setAddingToCart(true);
+
+    let options = [];
+    if (isBundle) {
+      console.log(productView.options)
+      // select default options
+      options = productView.options?.map((option) => {
+        return option.values?.[0]?.id;
+      }).filter((x) => !!x) ?? [];
+    }
+
     //Custom add to cart function passed in
-    await addToCart(productView.sku, [], quantity);
+    await addToCart(productView.sku, options, quantity);
     setAddingToCart(false);
     setRecentlyAddedToCart(true);
     window.setTimeout(() => setRecentlyAddedToCart(false), 2000);
