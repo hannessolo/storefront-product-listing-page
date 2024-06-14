@@ -132,8 +132,7 @@ export const ProductsHeader: ({
                 placeholder={translation.SearchBar.placeholder}
               />
             )}
-        {!screenSize.mobile
-           && totalCount > 0 && (
+        {totalCount > 0 && (
           <>
             <div className="product-header-left">
               <FilterButton
