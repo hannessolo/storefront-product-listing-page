@@ -134,13 +134,15 @@ export const ProductsHeader: ({
             )}
         {totalCount > 0 && (
           <>
-            <div className="product-header-left">
-              <FilterButton
-                displayFilter={displayFilter}
-                type="desktop"
-                title={`Filtres`}
-              />
-            </div>
+            {!screenSize.mobile && (
+              <div className="product-header-left">
+                <FilterButton
+                  displayFilter={displayFilter}
+                  type="desktop"
+                  title={`Filtres`}
+                />
+              </div>
+            )}
             <div className="product-header-right">
               {!loading && (
                 <span className="text-primary text-sm">
