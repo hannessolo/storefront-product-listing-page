@@ -24,13 +24,13 @@ export const FilterButton: FunctionComponent<FilterButtonProps> = ({
 }: FilterButtonProps) => {
   const translation = useTranslation();
   return type == 'mobile' ? (
-    <div className="ds-sdk-filter-button">
+    <div className="product-header-left">
       <button
-        className="flex items-center bg-gray-100 ring-black ring-opacity-5 rounded-md p-sm  outline outline-gray-200 hover:outline-gray-800 h-[32px]"
+        className="group flex justify-center items-center font-normal text-xs text-gray-700 rounded-md hover:cursor-pointer border-none bg-transparent hover:border-none hover:bg-transparent focus:border-none focus:bg-transparent active:border-none active:bg-transparent active:shadow-none h-full w-full px-sm"
         onClick={displayFilter}
       >
-        <FilterIcon className="w-md" />        
-        {translation.Filter.title}
+        <FilterIcon className="mr-sm stroke-gray-600 m-auto" />        
+        <span style = {{ textTransform: 'uppercase' }}>{translation.Filter.title}</span>
       </button>
     </div>
   ) : (
