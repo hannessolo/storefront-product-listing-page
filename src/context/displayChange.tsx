@@ -63,11 +63,11 @@ const Resize: FunctionComponent = ({ children }) => {
   const detectDevice = () => {
     const result = DefaultScreenSizeObject;
 
-    result.mobile = window.matchMedia('screen and (max-width: 767px)').matches;
+    result.mobile = window.matchMedia('screen and (max-width: 899px)').matches;
     result.tablet = window.matchMedia(
       'screen and (min-width: 768px) and (max-width: 960px)'
     ).matches;
-    result.desktop = window.matchMedia('screen and (min-width: 961px)').matches;
+    result.desktop = window.matchMedia('screen and (min-width: 900px)').matches;
     result.columns = getColumn(result);
     return result;
   };
