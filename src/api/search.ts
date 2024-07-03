@@ -207,7 +207,7 @@ const getCategoryPromoTiles = async ({
         categoryPath
           .replace(/^\/|\/$/g, '')
           .toUpperCase()
-          .startsWith(item?.path?.replace(/^\/|\/$/g, '').toUpperCase())
+          === item?.path?.replace(/^\/|\/$/g, '').toUpperCase()
       );
     });
   } catch (error) {

@@ -59,12 +59,12 @@ export const ProductList: FunctionComponent<ProductListProps> = ({
   }, [itemAdded]);
 
   // TODO fix in query
-  const visibleProducts = products?.filter((p) => !p.productView.attributes.find((a) => a.name === 'include_in_feed' && a.value === 'no')) ?? [];
+  // const visibleProducts = products?.filter((p) => !p.productView.attributes.find((a) => a.name === 'include_in_feed' && a.value === 'no')) ?? [];
 
   // move out of stock products to bottom of list
   const inStockProductsFirst = [
-    ...visibleProducts?.filter((p) => p.productView.inStock) ?? [],
-    ...visibleProducts?.filter((p) => !p.productView.inStock) ?? []
+    ...products?.filter((p) => p.productView.inStock) ?? [],
+    ...products?.filter((p) => !p.productView.inStock) ?? []
   ];
 
 
