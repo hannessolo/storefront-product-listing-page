@@ -14,6 +14,7 @@ import PodIcon from '../../icons/dg_pod.svg';
 import LightPodIcon from '../../icons/dg_pod_w.svg';
 import TeaIcon from '../../icons/dg_tea.svg';
 import NeoIcon from '../../icons/dg_neo_pod.svg';
+import NeoMilkIcon from '../../icons/sachet-neo.svg';
 import { Product, ProductAttribute } from '../../types/interface';
 
 export interface ProductCapsulesProps {
@@ -39,6 +40,8 @@ export const ProductCapsules: FunctionComponent<ProductCapsulesProps> = ({
     <TeaIcon class="plp-type-icon" /> :
     (generation === 'gen1' ? <PodIcon class="plp-type-icon" /> : <NeoIcon class="plp-type-icon neo-icon" />);
 
+  const milkTypeIcon = generation === 'gen1' ? <PodIcon class="plp-type-icon" /> : <NeoMilkIcon class="plp-type-icon neo-icon-milk" />;
+
   if (!capsules) {
     return <></>
   }
@@ -56,7 +59,7 @@ export const ProductCapsules: FunctionComponent<ProductCapsulesProps> = ({
           x {Number(capsules) / 2}{' '}
           {capsuleTypeIcon} x{' '}
           {Number(capsules) / 2}{' '}
-          <LightPodIcon class="plp-type-icon"/>
+         {milkTypeIcon}
         </>
       )}
     </div>
