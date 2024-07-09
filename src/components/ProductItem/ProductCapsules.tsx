@@ -40,7 +40,7 @@ export const ProductCapsules: FunctionComponent<ProductCapsulesProps> = ({
     <TeaIcon class="plp-type-icon" /> :
     (generation === 'gen1' ? <PodIcon class="plp-type-icon" /> : <NeoIcon class="plp-type-icon neo-icon" />);
 
-  const milkTypeIcon = generation === 'gen1' ? <PodIcon class="plp-type-icon" /> : <NeoMilkIcon class="plp-type-icon neo-icon-milk" />;
+  const milkTypeIcon = generation === 'gen1' ? <LightPodIcon class="plp-type-icon" /> : <NeoMilkIcon class="plp-type-icon neo-icon-milk" />;
 
   if (!capsules) {
     return <></>
